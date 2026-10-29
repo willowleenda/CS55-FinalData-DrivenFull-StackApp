@@ -70,7 +70,7 @@ export default function Filters({ filters, setFilters }) {
             value={filters.category}
             onChange={(event) => handleSelectionChange(event, "category")}
             name="category"
-            icon="/food.svg"
+            icon="/sword.svg"
           />
 
           {/* changed "City" to "Homeland" and updated options */}
@@ -87,7 +87,7 @@ export default function Filters({ filters, setFilters }) {
             value={filters.city}
             onChange={(event) => handleSelectionChange(event, "city")}
             name="city"
-            icon="/location.svg"
+            icon="/map.svg"
           />
 
           {/* changed "Price" to "Tier" */}
@@ -97,7 +97,7 @@ export default function Filters({ filters, setFilters }) {
             value={filters.price}
             onChange={(event) => handleSelectionChange(event, "price")}
             name="price"
-            icon="/price.svg"
+            icon="/coins.svg"
           />
 
           <FilterSelect
@@ -106,7 +106,7 @@ export default function Filters({ filters, setFilters }) {
             value={filters.sort}
             onChange={(event) => handleSelectionChange(event, "sort")}
             name="sort"
-            icon="/sortBy.svg"
+            icon="/sort.svg"
           />
 
           <footer>
