@@ -30,3 +30,4 @@ node_modules/
 # Security Keys
 serviceAccountKey.json
 serviceAccountKey.json.json
+.env.local
