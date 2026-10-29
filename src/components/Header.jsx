@@ -14,9 +14,6 @@ import {
   onIdTokenChanged, // listen for authentication token changes
 } from "@/src/lib/firebase/auth.js";
 
-// import function that adds sample races and reviews to firestore
-import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
-
 // import functions for creating and deleting cookies
 import { setCookie, deleteCookie } from "cookies-next";
 
@@ -117,14 +114,6 @@ export default function Header({ initialUser }) {
               <ul>
                 {/* display the user's name in the menu */}
                 <li>{user.displayName}</li>
-
-                {/* create the sample races menu option */}
-                <li>
-                  {/* add sample races when clicked */}
-                  <a href="#" onClick={addFakeRestaurantsAndReviews}>
-                    Add sample Races
-                  </a>
-                </li>
 
                 {/* create the sign-out menu option */}
                 <li>
