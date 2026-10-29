@@ -1,7 +1,7 @@
 "use client";
 
-// This components handles the restaurant listings page
-// It receives data from src/app/page.jsx, such as the initial restaurants and search params from the URL
+// This components handles the race listings page
+// It receives data from src/app/page.jsx, such as the initial races and search params from the URL
 
 import Link from "next/link";
 import { React, useState, useEffect } from "react";
@@ -10,6 +10,7 @@ import renderStars from "@/src/components/Stars.jsx";
 import { getRestaurantsSnapshot } from "@/src/lib/firebase/firestore.js";
 import Filters from "@/src/components/Filters.jsx";
 
+// component for a single race item in the list
 const RestaurantItem = ({ restaurant }) => (
   <li key={restaurant.id}>
     <Link href={`/restaurant/${restaurant.id}`}>
@@ -18,6 +19,7 @@ const RestaurantItem = ({ restaurant }) => (
   </li>
 );
 
+// wrapper component for the active race
 const ActiveResturant = ({ restaurant }) => (
   <div>
     <ImageCover photo={restaurant.photo} name={restaurant.name} />
@@ -25,12 +27,20 @@ const ActiveResturant = ({ restaurant }) => (
   </div>
 );
 
+// the image component - we updated this to ensure local images load
 const ImageCover = ({ photo, name }) => (
   <div className="image-cover">
-    <img src={photo} alt={name} />
+    {/* added a key to force react to re-render the image if the photo url changes */}
+    <img 
+      key={photo} 
+      src={photo} 
+      alt={name} 
+      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+    />
   </div>
 );
 
+// the details section of the race card
 const ResturantDetails = ({ restaurant }) => (
   <div className="restaurant__details">
     <h2>{restaurant.name}</h2>
@@ -39,6 +49,7 @@ const ResturantDetails = ({ restaurant }) => (
   </div>
 );
 
+// displays the star rating
 const RestaurantRating = ({ restaurant }) => (
   <div className="restaurant__rating">
     <ul>{renderStars(restaurant.avgRating)}</ul>
@@ -46,15 +57,18 @@ const RestaurantRating = ({ restaurant }) => (
   </div>
 );
 
+// displays the category, city, and price
 const RestaurantMetadata = ({ restaurant }) => (
   <div className="restaurant__meta">
     <p>
       {restaurant.category} | {restaurant.city}
     </p>
-    <p>{"$".repeat(restaurant.price)}</p>
+    {/* changed the dollar signs to stars for D&D tier */}
+    <p>{"⭐".repeat(restaurant.price)}</p>
   </div>
 );
 
+// export the main listings component
 export default function RestaurantListings({
   initialRestaurants,
   searchParams,
@@ -94,6 +108,7 @@ export default function RestaurantListings({
   );
 }
 
+// helper function to push filters to the url
 function routerWithFilters(router, filters) {
   const queryParams = new URLSearchParams();
 
