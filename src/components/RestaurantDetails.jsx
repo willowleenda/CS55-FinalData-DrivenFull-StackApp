@@ -1,4 +1,4 @@
-// This component shows race metadata, and offers some actions to the user like uploading a new race image, and adding a review.
+// This component shows race metadata, and offers some actions to the user like adding a review.
 
 import React from "react";
 import renderStars from "@/src/components/Stars.jsx";
@@ -6,7 +6,6 @@ import renderStars from "@/src/components/Stars.jsx";
 const RestaurantDetails = ({
   restaurant, // this is the race object
   userId,
-  handleRestaurantImage,
   setIsOpen,
   isOpen,
   children,
@@ -26,20 +25,6 @@ const RestaurantDetails = ({
             src="/review.svg"
           />
         )}
-        <label
-          onChange={(event) => handleRestaurantImage(event.target)}
-          htmlFor="upload-image"
-          className="add"
-        >
-          <input
-            name=""
-            type="file"
-            id="upload-image"
-            className="file-input hidden w-full h-full"
-          />
-
-          <img className="add-image" src="/add.svg" alt="Add image" />
-        </label>
       </div>
 
       <div className="details__container">
@@ -48,16 +33,13 @@ const RestaurantDetails = ({
 
           <div className="restaurant__rating">
             <ul>{renderStars(restaurant.avgRating)}</ul>
-
             <span>({restaurant.numRatings})</span>
           </div>
 
           <p>
-            {/* Changed Category and City to Combat Style and Homeland */}
             {restaurant.category} | {restaurant.city}
           </p>
           
-          {/* Changed the Dollar signs to a "Tier" label */}
           <p>Tier: {"⭐".repeat(restaurant.price)}</p>
           
           {children}
