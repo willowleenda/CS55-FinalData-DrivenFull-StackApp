@@ -56,7 +56,7 @@ export default function Filters({ filters, setFilters }) {
             event.target.parentNode.removeAttribute("open");
           }}
         >
-          {/* changed "Combat" to "Combat Style" and updated options */}
+          {/* Combat Style Filter */}
           <FilterSelect
             label="Combat Style"
             options={[
@@ -73,7 +73,7 @@ export default function Filters({ filters, setFilters }) {
             icon="/sword.svg"
           />
 
-          {/* changed "City" to "Homeland" and updated options */}
+          {/* Homeland Filter */}
           <FilterSelect
             label="Homeland"
             options={[
@@ -90,16 +90,9 @@ export default function Filters({ filters, setFilters }) {
             icon="/map.svg"
           />
 
-          {/* changed "Price" to "Tier" */}
-          <FilterSelect
-            label="Tier"
-            options={["", "$", "$$", "$$$", "$$$$"]}
-            value={filters.price}
-            onChange={(event) => handleSelectionChange(event, "price")}
-            name="price"
-            icon="/coins.svg"
-          />
+          {/* TIER FILTER REMOVED HERE */}
 
+          {/* Sort Filter */}
           <FilterSelect
             label="Sort"
             options={["Rating", "Review"]}
@@ -115,10 +108,10 @@ export default function Filters({ filters, setFilters }) {
                 className="button--cancel"
                 type="reset"
                 onClick={() => {
+                  // removed "price" from the reset list
                   setFilters({
                     city: "",
                     category: "",
-                    price: "",
                     sort: "",
                   });
                 }}
@@ -135,8 +128,8 @@ export default function Filters({ filters, setFilters }) {
 
       <div className="tags">
         {Object.entries(filters).map(([type, value]) => {
-          // skip showing the sorting as a 'tag'
-          if (type == "sort" || value == "") {
+          // skip showing the sorting as a 'tag', and skip price if it somehow exists
+          if (type == "sort" || type == "price" || value == "") {
             return null;
           }
           return (
