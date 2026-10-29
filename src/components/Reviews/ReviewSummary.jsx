@@ -4,26 +4,26 @@ import { GoogleGenAI } from "@google/genai";
 import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp"; 
 // import firestore database functions
 import { getFirestore } from "firebase/firestore"; 
-// import the function to fetch reviews for a restaurant
+// import the function to fetch reviews for a race
 import { getReviewsByRestaurantId } from "@/src/lib/firebase/firestore.js"; 
 
 // export the async server component for the summary
 export async function GeminiSummary({ restaurantId }) { 
   // get the authenticated firebase server app instance
   const { firebaseServerApp } = await getAuthenticatedAppForUser(); 
-  // fetch the reviews for this restaurant from firestore
+  // fetch the reviews for this race from firestore
   const reviews = await getReviewsByRestaurantId( 
     getFirestore(firebaseServerApp), // pass the firestore database instance
-    restaurantId // pass the restaurant id to fetch reviews for
+    restaurantId // pass the race id to fetch reviews for
   ); 
 
   // define the character used to separate reviews in the prompt
   const reviewSeparator = "@"; 
   // construct the prompt to send to gemini
   const prompt = `
-    Based on the following restaurant reviews, 
+    Based on the following race reviews, 
     where each review is separated by a '${reviewSeparator}' character, 
-    create a one-sentence summary of what people think of the restaurant. 
+    create a one-sentence summary of what people think of the race. 
 
     Here are the reviews: ${reviews.map((review) => review.text).join(reviewSeparator)}
   `; 
