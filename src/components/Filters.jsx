@@ -90,8 +90,6 @@ export default function Filters({ filters, setFilters }) {
             icon="/map.svg"
           />
 
-          {/* TIER FILTER REMOVED HERE */}
-
           {/* Sort Filter */}
           <FilterSelect
             label="Sort"

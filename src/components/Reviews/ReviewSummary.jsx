@@ -23,7 +23,7 @@ export async function GeminiSummary({ restaurantId }) {
       throw new Error('GEMINI_API_KEY not set.');
     }
 
-    // Use the stable 2.5-flash model and the correct x-goog-api-key header
+    // use the stable 2.5-flash model and the correct x-goog-api-key header
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent`,
       {

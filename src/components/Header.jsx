@@ -140,5 +140,5 @@ export default function Header({ initialUser }) {
         </div>
       )}
     </header>
-  ); // finish returning the header interface
-} // finish defining the header component
+  );
+}

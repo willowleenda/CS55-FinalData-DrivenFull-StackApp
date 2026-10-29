@@ -5,7 +5,7 @@ const { getFirestore, Timestamp } = require("firebase-admin/firestore");
 // load env variables
 require("dotenv").config({ path: ".env.local" });
 
-// read the service account key (we will download this next)
+// read the service account key
 const serviceAccount = require("./serviceAccountKey.json");
 
 initializeApp({
