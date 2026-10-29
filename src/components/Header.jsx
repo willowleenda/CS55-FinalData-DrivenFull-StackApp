@@ -80,7 +80,8 @@ export default function Header({ initialUser }) {
       {/* link the logo to the home page */}
       <Link href="/" className="logo">
         {/* display the D&D Race Rankings logo */}
-        <img src="/friendly-eats.svg" alt="D&D Race Rankings" />
+        {/* changed the source to your new d20.svg icon */}
+        <img src="/d20.svg" alt="D&D Race Rankings" />
         {/* display the site name */}
         D&D Race Rankings
       </Link>
