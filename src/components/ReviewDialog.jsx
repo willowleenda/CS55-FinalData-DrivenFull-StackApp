@@ -16,7 +16,7 @@ const ReviewDialog = ({
   review, // object holding the current review text
   onChange, // function to handle changes in the text input
   userId, // the id of the current user
-  id, // the id of the restaurant
+  id, // the id of the race
 }) => {
   // create a ref to attach to the dialog element
   const dialog = useRef();
@@ -54,7 +54,8 @@ const ReviewDialog = ({
         }}
       >
         <header>
-          <h3>Add your review</h3>
+          {/* changed text to rate the race */}
+          <h3>Rate this Race</h3>
         </header>
         <article>
           <RatingPicker /> {/* render the star rating component */}
@@ -64,7 +65,7 @@ const ReviewDialog = ({
               type="text"
               name="text"
               id="review"
-              placeholder="Write your thoughts here"
+              placeholder="Write your thoughts on this race..." // changed placeholder
               required
               value={review.text} // bind the input value to the review state
               onChange={(e) => onChange(e.target.value, "text")} // update state when user types

@@ -1,7 +1,9 @@
-// The filters shown on the restaurant listings page
+// The filters shown on the race listings page
 
+// import the tag component for displaying active filters
 import Tag from "@/src/components/Tag.jsx";
 
+// define the filter select dropdown component
 function FilterSelect({ label, options, value, onChange, name, icon }) {
   return (
     <div>
@@ -20,7 +22,9 @@ function FilterSelect({ label, options, value, onChange, name, icon }) {
   );
 }
 
+// export the main filters component
 export default function Filters({ filters, setFilters }) {
+  // handle changes to the dropdowns
   const handleSelectionChange = (event, name) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -28,6 +32,7 @@ export default function Filters({ filters, setFilters }) {
     }));
   };
 
+  // update specific fields in the filter state
   const updateField = (type, value) => {
     setFilters({ ...filters, [type]: value });
   };
@@ -38,7 +43,8 @@ export default function Filters({ filters, setFilters }) {
         <summary>
           <img src="/filter.svg" alt="filter" />
           <div>
-            <p>Restaurants</p>
+            {/* changed "Restaurants" to "Races" */}
+            <p>Races</p>
             <p>Sorted by {filters.sort || "Rating"}</p>
           </div>
         </summary>
@@ -50,23 +56,16 @@ export default function Filters({ filters, setFilters }) {
             event.target.parentNode.removeAttribute("open");
           }}
         >
+          {/* changed "Combat" to "Combat Style" and updated options */}
           <FilterSelect
-            label="Category"
+            label="Combat Style"
             options={[
               "",
-              "Italian",
-              "Chinese",
-              "Japanese",
-              "Mexican",
-              "Indian",
-              "Mediterranean",
-              "Caribbean",
-              "Cajun",
-              "German",
-              "Russian",
-              "Cuban",
-              "Organic",
-              "Tapas",
+              "Martial",
+              "Caster",
+              "Support",
+              "Hybrid",
+              "Stealth",
             ]}
             value={filters.category}
             onChange={(event) => handleSelectionChange(event, "category")}
@@ -74,21 +73,16 @@ export default function Filters({ filters, setFilters }) {
             icon="/food.svg"
           />
 
+          {/* changed "City" to "Homeland" and updated options */}
           <FilterSelect
-            label="City"
+            label="Homeland"
             options={[
               "",
-              "New York",
-              "Los Angeles",
-              "London",
-              "Paris",
-              "Tokyo",
-              "Mumbai",
-              "Dubai",
-              "Amsterdam",
-              "Seoul",
-              "Singapore",
-              "Istanbul",
+              "Faerûn",
+              "The Underdark",
+              "Feywild",
+              "The Sword Coast",
+              "Waterdeep",
             ]}
             value={filters.city}
             onChange={(event) => handleSelectionChange(event, "city")}
@@ -96,8 +90,9 @@ export default function Filters({ filters, setFilters }) {
             icon="/location.svg"
           />
 
+          {/* changed "Price" to "Tier" */}
           <FilterSelect
-            label="Price"
+            label="Tier"
             options={["", "$", "$$", "$$$", "$$$$"]}
             value={filters.price}
             onChange={(event) => handleSelectionChange(event, "price")}
@@ -140,9 +135,7 @@ export default function Filters({ filters, setFilters }) {
 
       <div className="tags">
         {Object.entries(filters).map(([type, value]) => {
-          // The main filter bar already specifies what
-          // sorting is being used. So skip showing the
-          // sorting as a 'tag'
+          // skip showing the sorting as a 'tag'
           if (type == "sort" || value == "") {
             return null;
           }

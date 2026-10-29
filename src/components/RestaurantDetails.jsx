@@ -1,10 +1,10 @@
-// This component shows restaurant metadata, and offers some actions to the user like uploading a new restaurant image, and adding a review.
+// This component shows race metadata, and offers some actions to the user like uploading a new race image, and adding a review.
 
 import React from "react";
 import renderStars from "@/src/components/Stars.jsx";
 
 const RestaurantDetails = ({
-  restaurant,
+  restaurant, // this is the race object
   userId,
   handleRestaurantImage,
   setIsOpen,
@@ -53,9 +53,13 @@ const RestaurantDetails = ({
           </div>
 
           <p>
+            {/* Changed Category and City to Combat Style and Homeland */}
             {restaurant.category} | {restaurant.city}
           </p>
-          <p>{"$".repeat(restaurant.price)}</p>
+          
+          {/* Changed the Dollar signs to a "Tier" label */}
+          <p>Tier: {"⭐".repeat(restaurant.price)}</p>
+          
           {children}
         </div>
       </div>

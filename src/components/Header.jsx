@@ -14,7 +14,7 @@ import {
   onIdTokenChanged, // listen for authentication token changes
 } from "@/src/lib/firebase/auth.js";
 
-// import function that adds sample restaurants and reviews to firestore
+// import function that adds sample races and reviews to firestore
 import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
 
 // import functions for creating and deleting cookies
@@ -82,10 +82,10 @@ export default function Header({ initialUser }) {
     <header>
       {/* link the logo to the home page */}
       <Link href="/" className="logo">
-        {/* display the friendly eats logo */}
-        <img src="/friendly-eats.svg" alt="FriendlyEats" />
+        {/* display the D&D Race Rankings logo */}
+        <img src="/friendly-eats.svg" alt="D&D Race Rankings" />
         {/* display the site name */}
-        Friendly Eats
+        D&D Race Rankings
       </Link>
 
       {/* show different content depending on whether the user is signed in */}
@@ -118,11 +118,11 @@ export default function Header({ initialUser }) {
                 {/* display the user's name in the menu */}
                 <li>{user.displayName}</li>
 
-                {/* create the sample restaurants menu option */}
+                {/* create the sample races menu option */}
                 <li>
-                  {/* add sample restaurants when clicked */}
+                  {/* add sample races when clicked */}
                   <a href="#" onClick={addFakeRestaurantsAndReviews}>
-                    Add sample restaurants
+                    Add sample Races
                   </a>
                 </li>
 
