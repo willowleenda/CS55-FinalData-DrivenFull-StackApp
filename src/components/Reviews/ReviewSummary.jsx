@@ -1,75 +1,72 @@
-// import the new google genai sdk client
-import { GoogleGenAI } from "@google/genai"; 
-// import the function to get the authenticated firebase app
-import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp"; 
-// import firestore database functions
-import { getFirestore } from "firebase/firestore"; 
-// import the function to fetch reviews for a race
-import { getReviewsByRestaurantId } from "@/src/lib/firebase/firestore.js"; 
+import { getReviewsByRestaurantId } from "@/src/lib/firebase/firestore.js";
+import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp";
+import { getFirestore } from "firebase/firestore";
 
-// export the async server component for the summary
-export async function GeminiSummary({ restaurantId }) { 
-  // get the authenticated firebase server app instance
-  const { firebaseServerApp } = await getAuthenticatedAppForUser(); 
-  // fetch the reviews for this race from firestore
-  const reviews = await getReviewsByRestaurantId( 
-    getFirestore(firebaseServerApp), // pass the firestore database instance
-    restaurantId // pass the race id to fetch reviews for
-  ); 
+export async function GeminiSummary({ restaurantId }) {
+  const { firebaseServerApp } = await getAuthenticatedAppForUser();
+  const reviews = await getReviewsByRestaurantId(
+    getFirestore(firebaseServerApp),
+    restaurantId
+  );
 
-  // define the character used to separate reviews in the prompt
-  const reviewSeparator = "@"; 
-  // construct the prompt to send to gemini
+  const reviewSeparator = "@";
   const prompt = `
     Based on the following race reviews, 
     where each review is separated by a '${reviewSeparator}' character, 
     create a one-sentence summary of what people think of the race. 
 
     Here are the reviews: ${reviews.map((review) => review.text).join(reviewSeparator)}
-  `; 
+  `;
 
-  // start a try block to handle potential errors
-  try { 
-    // check if the api key environment variable is missing
-    if (!process.env.GEMINI_API_KEY) { 
-      // throw an error if the key is not set
-      throw new Error( 
-        'GEMINI_API_KEY not set. Set it with "firebase apphosting:secrets:set GEMINI_API_KEY"'
-      ); 
-    } 
+  try {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY not set.');
+    }
 
-    // initialize the new genai sdk with the api key from environment variables
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }); 
+    // Use the stable 2.5-flash model and the correct x-goog-api-key header
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': process.env.GEMINI_API_KEY,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
+      }
+    );
 
-    // call the gemini model to generate the summary text
-    const response = await ai.models.generateContent({ 
-      model: 'gemini-3.8-flash', // specify the gemini model version
-      contents: prompt, // pass the constructed prompt
-    }); 
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Error: ${response.status} - ${errorText}`);
+    }
 
-    // extract the text response from the generated content
-    const text = response.text; 
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    // return the jsx to render the summary
-    return ( 
-      <div className="restaurant__review_summary"> 
-        <p>{text}</p> 
-        <p>✨ Summarized with Gemini</p> 
-      </div> 
-    ); 
-  } catch (e) { // catch any errors that occur in the try block
-    // log the error to the server console
-    console.error(e); 
-    // return a fallback error message to the ui
-    return <p>Error summarizing reviews.</p>; 
-  } 
+    if (!text) {
+      throw new Error('No text returned from Gemini API');
+    }
+
+    return (
+      <div className="restaurant__review_summary">
+        <p>{text}</p>
+        <p>✨ Summarized with Gemini</p>
+      </div>
+    );
+    } catch (e) {
+    console.error('Gemini Error:', e);
+    // CHANGE THIS LINE to show the error on the screen:
+    return <p style={{ color: 'red', fontSize: '12px' }}>Debug: {e.message}</p>;
+  }
 }
 
-// export the loading skeleton component
-export function GeminiSummarySkeleton() { 
-  return ( 
-    <div className="restaurant__review_summary"> 
-      <p>✨ Summarizing reviews with Gemini...</p> 
-    </div> 
-  ); 
+export function GeminiSummarySkeleton() {
+  return (
+    <div className="restaurant__review_summary">
+      <p>✨ Summarizing reviews with Gemini...</p>
+    </div>
+  );
 }
